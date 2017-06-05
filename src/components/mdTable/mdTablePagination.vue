@@ -8,11 +8,11 @@
 
     <span>{{ ((currentPage - 1) * currentSize) + 1 }}-{{ subTotal }} {{ mdSeparator }} {{ mdTotal }}</span>
 
-    <md-button class="md-icon-button md-table-pagination-previous" @click.native="previousPage" :disabled="currentPage === 1">
+    <md-button class="md-icon-button md-table-pagination-previous" @click.native="previousPage" :disabled="showPrevious">
       <md-icon>keyboard_arrow_left</md-icon>
     </md-button>
 
-    <md-button class="md-icon-button md-table-pagination-next" @click.native="nextPage" :disabled="shouldDisable">
+    <md-button class="md-icon-button md-table-pagination-next" @click.native="nextPage" :disabled="showNext">
       <md-icon>keyboard_arrow_right</md-icon>
     </md-button>
   </div>
@@ -63,10 +63,10 @@
       }
     },
     computed: {
-      lastPage() {
-        return false;
+      showPrevious() {
+        return currentPage === 1;
       },
-      shouldDisable() {
+      showNext() {
         return this.currentSize * this.currentPage >= this.totalItems;
       }
     },
@@ -76,12 +76,15 @@
           const sub = this.currentPage * this.currentSize;
 
           this.subTotal = sub > this.mdTotal ? this.mdTotal : sub;
+          this.currentPage = sub > this.mdTotal ? Math.ceil(this.mdTotal / this.currentSize) : this.currentPage;
+
           this.$emit('pagination', {
             size: this.currentSize,
             page: this.currentPage
           });
         }
       },
+
       changeSize() {
         if (this.canFireEvents) {
           this.$emit('size', this.currentSize);
