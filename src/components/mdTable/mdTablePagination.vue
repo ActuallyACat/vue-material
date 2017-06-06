@@ -64,7 +64,7 @@
     },
     computed: {
       showPrevious() {
-        return currentPage === 1;
+        return this.currentPage === 1;
       },
       showNext() {
         return this.currentSize * this.currentPage >= this.totalItems;
