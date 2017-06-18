@@ -8,6 +8,7 @@
   export default {
     methods: {
       setContentMargin() {
+        console.log('setContentMargin');
         this.content.style.marginTop = -this.content.offsetHeight + 'px';
       },
       toggle() {
